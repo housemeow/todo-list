@@ -1,0 +1,12 @@
+# Ignore environment files
+.env
+.env.local
+.env.*
+.npmrc
+**/.env
+**/.env.local
+**/.env.*
+**/config/*.env
+**/secrets/*
+**/.credentials
+**/credentials/*
