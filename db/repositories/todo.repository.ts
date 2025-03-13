@@ -33,12 +33,19 @@ export class TodoRepository {
   }
 
   async update(id: number, updateTodo: UpdateTodoBo): Promise<TodoPo> {
-    const todo = await this.todoModel.findByPk(id);
-    if (!todo) {
+    const [updatedCount, [updatedTodo]] = await this.todoModel.update(
+      { ...updateTodo, updatedAt: new Date() } as TodoAttributes,
+      {
+        where: { id },
+        returning: true,
+      }
+    );
+
+    if (updatedCount === 0) {
       throw new NotFoundException(`Todo with ID ${id} not found`);
     }
-    const result = await todo.update({ ...updateTodo, updatedAt: new Date() } as TodoAttributes);
-    return new TodoPo(result.dataValues);
+
+    return new TodoPo(updatedTodo.dataValues);
   }
 
   async remove(id: number): Promise<void> {

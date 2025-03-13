@@ -19,13 +19,13 @@ export class Todo
     type: DataType.STRING,
     allowNull: false,
   })
-  title: string;
+  declare title: string;
 
   @Column({
     type: DataType.BOOLEAN,
     defaultValue: false,
   })
-  completed: boolean;
+  declare completed: boolean;
 
   @Column({
     type: DataType.DATE,
