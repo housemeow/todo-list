@@ -5,6 +5,7 @@ import { CreateTodoBo } from 'db/bo/create-todo.bo';
 import { TodoAttributes } from 'db/models/interface/todo.type';
 import { UpdateTodoBo } from 'db/bo/update-todo.bo';
 import { TodoPo } from 'db/po/todo.po';
+import { Op, WhereOptions } from 'sequelize';
 
 @Injectable()
 export class TodoRepository {
@@ -13,10 +14,21 @@ export class TodoRepository {
     private todoModel: typeof Todo,
   ) {}
 
-  async findAll(): Promise<TodoPo[]> {
-    const result = await this.todoModel.findAll();
-    console.log(result);
-    return result.map((todo) => new TodoPo(todo.dataValues));
+  async findAll(title?: string): Promise<TodoPo[]> {
+    const where: WhereOptions<TodoAttributes> = {};
+    
+    if (title) {
+      where.title = {
+        [Op.iLike]: `%${title}%`
+      };
+    }
+
+    const todos = await this.todoModel.findAll({
+      where,
+      order: [['createdAt', 'DESC']]
+    });
+
+    return todos.map(todo => new TodoPo(todo.dataValues));
   }
 
   async findOne(id: number): Promise<TodoPo> {

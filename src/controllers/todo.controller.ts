@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { TodoService } from '../services/todo.service';
 import { CreateTodoDto } from '../../db/dto/create-todo.dto';
 import { UpdateTodoDto } from '../../db/dto/update-todo.dto';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { TodoVo } from '../vo/todo.vo';
 
 @ApiTags('todos')
@@ -12,9 +12,10 @@ export class TodoController {
 
   @Get()
   @ApiOperation({ summary: 'Get all todos' })
+  @ApiQuery({ name: 'title', required: false, description: 'Filter todos by title (fuzzy search)' })
   @ApiResponse({ status: 200, description: 'Successfully retrieved all todos', type: [TodoVo] })
-  async findAll(): Promise<TodoVo[]> {
-    const todos = await this.todoService.findAll();
+  async findAll(@Query('title') title?: string): Promise<TodoVo[]> {
+    const todos = await this.todoService.findAll(title);
     return todos.map(todo => new TodoVo({
       ...todo,
       createdAt: todo.createdAt.getTime(),

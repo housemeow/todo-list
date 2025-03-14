@@ -10,8 +10,8 @@ import { UpdateTodoBo } from 'db/bo/update-todo.bo';
 export class TodoService {
   constructor(private readonly todoRepository: TodoRepository) {}
 
-  async findAll(): Promise<TodoDto[]> {
-    const todos = await this.todoRepository.findAll();
+  async findAll(title?: string): Promise<TodoDto[]> {
+    const todos = await this.todoRepository.findAll(title);
     return todos.map((todo) => new TodoDto(todo));
   }
 
