@@ -5,9 +5,7 @@ import { TodoAttributes } from './interface/todo.type';
   tableName: 'todos',
   timestamps: true,
 })
-export class Todo
-  extends Model<TodoAttributes>
-  implements TodoAttributes {
+export class Todo extends Model<TodoAttributes> implements TodoAttributes {
   @Column({
     type: DataType.INTEGER,
     primaryKey: true,
@@ -38,4 +36,4 @@ export class Todo
     defaultValue: DataType.NOW,
   })
   declare updatedAt: Date;
-} 
+}

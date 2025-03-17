@@ -1,4 +1,4 @@
 export class UpdateTodoDto {
-    title: string;
-    completed: boolean;
+  title: string;
+  completed: boolean;
 }

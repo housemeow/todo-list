@@ -57,7 +57,7 @@ describe('TodoController', () => {
       mockTodoService.findAll.mockResolvedValue(mockTodos);
 
       const result = await controller.findAll();
-      expect(result).toEqual(mockTodos.map(todo => new TodoVo(todo)));
+      expect(result).toEqual(mockTodos.map((todo) => new TodoVo(todo)));
       expect(service.findAll).toHaveBeenCalled();
     });
   });
@@ -127,4 +127,4 @@ describe('TodoController', () => {
       expect(service.remove).toHaveBeenCalledWith(1);
     });
   });
-}); 
+});
