@@ -21,16 +21,21 @@ export class TodoService {
   }
 
   async create(createTodoDto: CreateTodoDto): Promise<TodoDto> {
-    const todo = await this.todoRepository.create(new CreateTodoBo(createTodoDto));
+    const todo = await this.todoRepository.create(
+      new CreateTodoBo(createTodoDto),
+    );
     return new TodoDto(todo);
   }
 
   async update(id: number, updateTodoDto: UpdateTodoDto): Promise<TodoDto> {
-    const todo = await this.todoRepository.update(id, new UpdateTodoBo(updateTodoDto));
+    const todo = await this.todoRepository.update(
+      id,
+      new UpdateTodoBo(updateTodoDto),
+    );
     return new TodoDto(todo);
   }
 
   async remove(id: number): Promise<void> {
     await this.todoRepository.remove(id);
   }
-} 
+}

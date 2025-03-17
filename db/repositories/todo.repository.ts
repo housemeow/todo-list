@@ -16,19 +16,19 @@ export class TodoRepository {
 
   async findAll(title?: string): Promise<TodoPo[]> {
     const where: WhereOptions<TodoAttributes> = {};
-    
+
     if (title) {
       where.title = {
-        [Op.iLike]: `%${title}%`
+        [Op.iLike]: `%${title}%`,
       };
     }
 
     const todos = await this.todoModel.findAll({
       where,
-      order: [['createdAt', 'DESC']]
+      order: [['createdAt', 'DESC']],
     });
 
-    return todos.map(todo => new TodoPo(todo.dataValues));
+    return todos.map((todo) => new TodoPo(todo.dataValues));
   }
 
   async findOne(id: number): Promise<TodoPo> {
@@ -50,7 +50,7 @@ export class TodoRepository {
       {
         where: { id },
         returning: true,
-      }
+      },
     );
 
     if (updatedCount === 0) {
@@ -67,4 +67,4 @@ export class TodoRepository {
     }
     await todo.destroy();
   }
-} 
+}
